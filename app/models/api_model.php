@@ -6,7 +6,6 @@ class ApiModel
         $api = PREFIX.$data->api.DNS;
         unset($data->api);
         $postData = json_encode($data);
-        // error_log('data to '.$api);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $api);
         curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -20,15 +19,29 @@ class ApiModel
 
         $res = curl_exec($ch);
         if(isset($res)){
-            // error_log('response from '.$api.' '.print_r($res, 1));
             return $res;
         }
         curl_close($ch);
 
     }
+
+    public function registerUser()
+    {
+        $input = json_decode(file_get_contents('php://input'));
+
+        $data = new stdClass();
+        $data->api = 'database';
+        $data->connection = 'CORE';
+        $data->procedure = __FUNCTION__;
+        $data->params->login = $input->params->login;
+        $data->params->password = $input->params->password;
+        $data->params->projectId = $input->params->projectId;
+        $res = self::responseObject(self::doAPI($data));
+        if($res[0]->code == '6000'){
+            return $res[0];
+        }
+    }
     
-
-
     public function responseObject($data)
     {
         $resObj = json_decode($data);

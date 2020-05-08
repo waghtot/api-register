@@ -21,8 +21,13 @@ class Master extends Controller
                 $resp = new stdClass();
                 $resp->code = '6016';
                 $resp->message = 'missconfiguration';
-                echo json_encode($resp);                 
+                echo json_encode($resp);
+                die;
             }
+
+            $resp = ApiModel::registerUser();
+            echo json_encode($resp);
+            die;
         }
 
     }
