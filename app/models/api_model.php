@@ -42,6 +42,19 @@ class ApiModel
         }
     }
     
+    public function sendEmail($input)
+    {
+        $data = new stdClass();
+        $data->api = 'email';
+        $data->action = 'Register';
+        $data->userId = $input->userId;
+        $data->projectId = $input->projectId;
+
+        $res = self::responseObject(self::doAPI($data));
+
+        return $res;
+    }
+
     public function responseObject($data)
     {
         $resObj = json_decode($data);

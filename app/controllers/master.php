@@ -26,7 +26,10 @@ class Master extends Controller
             }
 
             $resp = ApiModel::registerUser();
-            echo json_encode($resp);
+            if($resp->code == '6000'){
+                $res = ApiModel::sendEmail($resp);
+            }
+            echo json_encode($res);
             die;
         }
 
