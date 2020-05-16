@@ -58,6 +58,7 @@ class ApiModel
     public function responseObject($data)
     {
         $resObj = json_decode($data);
+        error_log('object response: '.print_r($resObj, 1));
         return $resObj;
     }
 
